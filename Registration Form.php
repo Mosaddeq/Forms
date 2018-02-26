@@ -7,24 +7,29 @@
 </head>
 <body>
 <div>
-<?
-$nameErr = $emailErr = $PassErr = $RadioErr = ""; //defining empty vars to hold errors
-
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // collect value of input field
+    $name = htmlspecialchars($_REQUEST['name']); 
+    if (empty($name)) {
+        echo "Name is empty";
+    } else {
+        echo $name;
+    }
+}
 ?>
 
 
 
 
-
-
-
-<form method="post" action="">
+<form method="post" action="<?php echo $_SERVER["PHP_SELF"];?>">   <!$_SERVER["PHP_SELF"]Returns the filename of the currently executing script> 
 
 	Name: <br>
-	<input type="text" name="" value="" placeholder="First Name"/>
-	<input type="text" name="" value="" placeholder="Last Name"/>
+	<input type="text" name="name" value="" placeholder="Full Name"/>
+	
 	<br>
 	<br>
+
 
 	
 	
