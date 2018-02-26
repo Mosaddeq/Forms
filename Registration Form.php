@@ -30,6 +30,11 @@
 }	else
 	{
 	$name = test_input($_POST["name"]);
+												// check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+      $nameErr = "Only letters and white space allowed"; 
+    }
+
 	}
 	if(empty ($_POST["email"])){
 	$emailErr = "Field required";
@@ -37,8 +42,12 @@
 	else
 	{
 	$email = test_input($_POST["email"]);
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) // PHP's filter_var() function lets us check whether an email address is well-formed 
+	{
+      $emailErr = "Invalid email format"; 
+    }
 	}
-	if(empty ($_POST["password"])){
+	if(empty ($_POST["gender"])){
 	$genderErr = "Field required";
 	}
 	else
@@ -58,6 +67,10 @@
 	else
 	{
 	$confirm = test_input($_POST["confirm"]);
+	if($_POST["confirm"] != $_POST ["password"]) //whether password matches or not
+	{
+		$confirmErr = "pass doesn't match";
+	}
 	}
 	if(empty ($_POST["check"])){
 	$emailErr = "Field required";
@@ -98,7 +111,7 @@ function test_input($data) {
 		<span class="error">* <?php echo $emailErr;?></span>	
 		<br>
 		<br>
-	Gender:<br>
+	Gender: <br>
 		<input type="radio" name="gender" value="female">Female
 		<input type="radio" name="gender" value="male">Male
 		<span class="error">* <?php echo $genderErr;?></span>	
@@ -142,7 +155,7 @@ function test_input($data) {
 		
 		
 <?php
-		echo "<h2>Your Input:</h2>";
+		echo "<h2>Your Information:</h2>";
 		echo $name;
 		echo "<br>";
 		echo $email;
