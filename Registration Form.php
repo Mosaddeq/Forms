@@ -145,7 +145,7 @@ function test_input($data) {
 		
 		<br>
 		<br>
-		<input type="radio" name="check" value="" placeholder="" />Yes,I've read the terms and conditions and i agree.
+		<input type="radio" name="check" value="" placeholder="" />Yes,I've read the <a href="terms and conditions.html">terms and conditions and i agree
 		<span class="error">* <?php echo $checkErr;?></span>	
 		<br>
 		<br>
