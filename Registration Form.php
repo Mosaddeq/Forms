@@ -1,13 +1,4 @@
-<!DOCTYPE HTML> 
-<html>
-<title>Registration</title>
-<head>
-<h1 align="center">Registration Form</h1>
-
-
-</head>
-<body>
-<div>
+ 
 <?php
 /*if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // collect value of input field
@@ -60,6 +51,14 @@
 	else
 	{
 	$password = test_input($_POST["password"]);
+	if (preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $password)) //pass must contain numeric and letters both
+	{
+    $passErr = " secure enough";
+	}
+	else
+	{
+	$passErr = " not secure enough";	
+	}
 	}
 	if(empty ($_POST["confirm"])){
 	$confirmErr = "Field required";
@@ -73,7 +72,7 @@
 	}
 	}
 	if(empty ($_POST["check"])){
-	$emailErr = "Field required";
+	$checkErr = "Field required";
 	}
 	else
 	{
@@ -92,6 +91,17 @@ function test_input($data) {
   return $data;
 }
 ?>
+<!DOCTYPE HTML>
+
+<html>
+<title>Registration</title>
+<head>
+<h1 align="center">Registration Form</h1>
+
+
+</head>
+<body>
+<div>
 
 
 
@@ -119,13 +129,13 @@ function test_input($data) {
 	
 	Password:<br>
 
-		<input type="text" name="password" value="" placeholder="*********"/>
+		<input type="password" name="password" value="" placeholder="*********"/>
 		<span class="error">* <?php echo $passErr;?></span>	
 		<br>
 		<br>
 	
 	Confirm Password:<br>
-		<input type="text" name="confirm" value="" placeholder="*********"/>
+		<input type="password" name="confirm" value="" placeholder="*********"/>
 		<span class="error">* <?php echo $confirmErr;?></span>	
 		<br>
 		<br>
@@ -145,7 +155,7 @@ function test_input($data) {
 		
 		<br>
 		<br>
-		<input type="radio" name="check" value="" placeholder="" />Yes,I've read the <a href="terms and conditions.html">terms and conditions and i agree
+		<input type="radio" name="check" value="checked" placeholder="" />Yes,I've read the <a href="terms and conditions.html">terms and conditions </a> and i agree
 		<span class="error">* <?php echo $checkErr;?></span>	
 		<br>
 		<br>
@@ -172,6 +182,7 @@ function test_input($data) {
 ?>
 
 </form>
+
 </div>
 </body>
 
