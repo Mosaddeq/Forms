@@ -8,7 +8,28 @@
     } else {
         echo $name;
     }
-}*/ $nameErr = $emailErr = $genderErr = $passErr = $confirmErr = $checkErr = ""; //setting empty vars to hold err msgs
+}*/ 
+	if(isset($_POST['submit'])){
+	$name 	=trim($_POST['name']);
+	$email 	=trim($_POST['email']);
+	$gender =trim($_POST['gender']);
+	$password =trim($_POST['password']);
+	$uType 	=trim($_POST['uType']);
+	$cInfo 	=trim($_POST['cInfo']);
+	
+	
+	$c = mysqli_connect ("localhost","root","","web");
+	
+	
+	$sql = "insert into web (name,email,gender,password,uType,cInfo) values (".$name."','".$email."','".$gender."','".$password.",".$uType.",".$cInfo."')";
+
+	//$sql = "insert into web values ('".$name."',".$email.",".$gender.",".$password.",".$uType.",".$cInfo.")";
+	mysqli_query($c,$sql);
+	mysqli_close($c);
+	}
+		
+
+	$nameErr = $emailErr = $genderErr = $passErr = $confirmErr = $checkErr = ""; //setting empty vars to hold err msgs
 
 
 
