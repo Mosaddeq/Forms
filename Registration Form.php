@@ -7,11 +7,11 @@
 
 
 	
-	if($_SERVER["REQUEST_METHOD"] == "POST")     
+	if($_SERVER["REQUEST_METHOD"] == "POST")    /*check whether the form has been submitted using $_SERVER["REQUEST_METHOD"].If the REQUEST_METHOD is POST, then the form has been submitted  
+												- and it should be validated. If it has not been submitted,skip the validation and display a blank form*/ 
 												
-{	
-	
-	
+{	$name = $_POST['name']; 
+	$email = $_POST['email'];
 	$gender = $_POST['gender'];
 	$password =  $_POST['password'];
 	$uType =  $_POST['uType'];
@@ -37,36 +37,26 @@
 
 	if(empty ($_POST["name"])){
 	$nameErr = "Field required";
-	}	
-	else if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
-      $nameErr = "Only letters and white space allowed";  												// check if name only contains letters and whitespace
-    }
-	else 
+}	else
 	{
-		$name = test_input($_POST["name"]);
-		$name = $_POST['name']; 
-	}
-		
+	$name = test_input($_POST["name"]);
+									// check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+      $nameErr = "Only letters and white space allowed"; 
+    }
 
+	}
 	if(empty ($_POST["email"])){
 	$emailErr = "Field required";
 	}
-	else 
-	{	
-	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) //validation of email
+	else
 	{
-	$emailErr = "Invalid email format";
+	$email = test_input($_POST["email"]);
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) // PHP's filter_var() function lets us check whether an email address is well-formed 
+	{
+      $emailErr = "Invalid email format"; 
+    }
 	}
-	else 
-	{	
-		$email = test_input($_POST["email"]);
-		$email = $_POST['email'];
-		
-	}
-	}
-	
-	
-	
 	if(empty ($_POST["gender"])){
 	$genderErr = "Field required";
 	}
@@ -82,7 +72,6 @@
 	$password = test_input($_POST["password"]);
 	if (preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $password)) //pass must contain numeric and letters both
 	{
-		$password = test_input($_POST["password"]);
     $passErr = " secure enough";
 	}
 	else
