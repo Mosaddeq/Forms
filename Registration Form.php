@@ -1,48 +1,46 @@
  
 <?php
-/*if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // collect value of input field
-    $name = htmlspecialchars($_REQUEST['name']); 
-    if (empty($name)) {
-        echo "Name is empty";
-    } else {
-        echo $name;
-    }
-}*/ 
-	if(isset($_POST['submit'])){
-	$name 	=trim($_POST['name']);
-	$email 	=trim($_POST['email']);
-	$gender =trim($_POST['gender']);
-	$password =trim($_POST['password']);
-	$uType 	=trim($_POST['uType']);
-	$cInfo 	=trim($_POST['cInfo']);
+	$name = $email = $gender = $password = $confirm = $uType = $cInfo = $check ="";
 	
-	
-	$c = mysqli_connect ("localhost","root","","web");
-	
-	
-	$sql = "insert into web (name,email,gender,password,uType,cInfo) values (".$name."','".$email."','".$gender."','".$password.",".$uType.",".$cInfo."')";
-
-	//$sql = "insert into web values ('".$name."',".$email.",".$gender.",".$password.",".$uType.",".$cInfo.")";
-	mysqli_query($c,$sql);
-	mysqli_close($c);
-	}
-		
-
 	$nameErr = $emailErr = $genderErr = $passErr = $confirmErr = $checkErr = ""; //setting empty vars to hold err msgs
 
 
 
-	$name = $email = $gender = $password = $confirm = $uType = $cInfo = $check ="";
+	
 	if($_SERVER["REQUEST_METHOD"] == "POST")    /*check whether the form has been submitted using $_SERVER["REQUEST_METHOD"].If the REQUEST_METHOD is POST, then the form has been submitted  
 												- and it should be validated. If it has not been submitted,skip the validation and display a blank form*/ 
 												
-{	if(empty ($_POST["name"])){
+{	$name = $_POST['name']; 
+	$email = $_POST['email'];
+	$gender = $_POST['gender'];
+	$password =  $_POST['password'];
+	$uType =  $_POST['uType'];
+	$cInfo = $_POST['cInfo'];
+	
+	$servername ="localhost";
+	$username 	="root";
+	$password 	="";
+	$dbname 	="web";
+	$conn = mysqli_connect($servername, $username, $password, $dbname);
+	
+	 
+	
+	if(!$conn){
+		die("Connection Error!".mysqli_connect_error());
+	}else{
+		$sql = "insert into web values ('".$name."','".$email."','".$gender."','".$password."','".$uType."','".$cInfo."')";
+	}
+	
+	//$sql = "insert into web values ('".$name."',".$email.",".$gender.",".$password.",".$uType.",".$cInfo.")";
+	mysqli_query($conn,$sql);
+	mysqli_close($conn);	
+
+	if(empty ($_POST["name"])){
 	$nameErr = "Field required";
 }	else
 	{
 	$name = test_input($_POST["name"]);
-												// check if name only contains letters and whitespace
+									// check if name only contains letters and whitespace
     if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
       $nameErr = "Only letters and white space allowed"; 
     }
@@ -112,6 +110,7 @@ function test_input($data) {
   return $data;
 }
 ?>
+
 <!DOCTYPE HTML>
 
 <html>
@@ -163,6 +162,7 @@ function test_input($data) {
 	
 	User Type:
 		<select value="combo" name="uType" >
+		<option value=""></option>
 		<option value="Instructor">Instructor</option>
 		<option value="Student">Student</option>
 		
@@ -182,10 +182,9 @@ function test_input($data) {
 		<br>
 		
 		
-		<input type="submit" name="" value="Sign Up"/>
+		<input type="submit" name="submit" value="submit"/>
 		
-		
-<?php
+	<?php
 		echo "<h2>Your Information:</h2>";
 		echo $name;
 		echo "<br>";
@@ -208,3 +207,5 @@ function test_input($data) {
 </body>
 
 </html>
+
+
